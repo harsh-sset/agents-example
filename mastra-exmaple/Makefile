@@ -1,7 +1,7 @@
 # Makefile for mastra-example project
 
 # Variables
-NODE_VERSION := 22.9.0
+NODE_VERSION := $(shell node -v | sed 's/v//')
 PACKAGE_MANAGER := npm
 PROJECT_NAME := research-agents
 
@@ -23,15 +23,11 @@ help: ## Show this help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(YELLOW)%-15s$(NC) %s\n", $$1, $$2}'
 
 # Setup and installation
-setup: ## Initial project setup
+install: ## Initial project setup
 	@echo "$(GREEN)Setting up $(PROJECT_NAME)...$(NC)"
-	@node --version | grep -q "v$(NODE_VERSION)" || (echo "$(RED)Node version $(NODE_VERSION) required$(NC)" && exit 1)
+	@echo "$(GREEN)Current Node.js version: $(NODE_VERSION)$(NC)"
 	$(PACKAGE_MANAGER) install
 	@echo "$(GREEN)Setup complete!$(NC)"
-
-install: ## Install dependencies
-	@echo "$(GREEN)Installing dependencies...$(NC)"
-	$(PACKAGE_MANAGER) install
 
 # Development commands
 dev: ## Start development server
